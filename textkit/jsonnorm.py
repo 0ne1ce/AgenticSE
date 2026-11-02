@@ -21,7 +21,7 @@ def _normalize_values(value: object) -> object:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("input", type=Path, metavar="INPUT", help="входной JSON-файл")
-    parser.add_argument("-o", type=Path, metavar="OUTPUT", help="выходной JSON-файл")
+    parser.add_argument("-o", dest="output", type=Path, metavar="OUTPUT", help="выходной JSON-файл")
     arguments = parser.parse_args()
 
     try:
@@ -31,11 +31,11 @@ def main() -> int:
         return 1
 
     result = json.dumps(_normalize_values(value), ensure_ascii=False, indent=2) + "\n"
-    if arguments.o is None:
+    if arguments.output is None:
         sys.stdout.reconfigure(encoding="utf-8")
         sys.stdout.write(result)
     else:
-        arguments.o.write_text(result, encoding="utf-8")
+        arguments.output.write_text(result, encoding="utf-8")
     return 0
 
 
